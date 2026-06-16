@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>郑可乐 生日快乐</title><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d0d2b;overflow:hidden;font-family:"Microsoft YaHei","PingFang SC",sans-serif;cursor:pointer;user-select:none;display:flex;justify-content:center;align-items:center;height:100vh}
+canvas{display:block;image-rendering:pixelated;image-rendering:crisp-edges}
+#hint{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);color:#ffd700;font-size:14px;text-align:center;animation:blink 1.5s infinite;z-index:10;pointer-events:none;text-shadow:2px 2px 0 #000}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+</style></head><body><canvas id="c"></canvas><div id="hint">🎁 点击礼物盒打开 🎁</div>
+<script>
+const C=document.getElementById("c"),X=C.getContext("2d"),H=document.getElementById("hint");
+let W,hh,P="gift",pT=0,gB=0,gBT=0;
+function R(){W=C.width=innerWidth;hh=C.height=innerHeight}R();addEventListener("resize",R);
+
+let A;function IA(){A||(A=new(window.AudioContext||window.webkitAudioContext))}
+function PN(f,d,t,v){if(!A)return;let o=A.createOscillator(),g=A.createGain(),cT=A.currentTime;o.type=t||"square";o.frequency.value=f;g.gain.setValueAtTime(v||.08,cT);g.gain.exponentialRampToValueAtTime(.001,cT+d);o.connect(g);g.connect(A.destination);o.start(cT);o.stop(cT+d)}
+
+let FW=[],CF=[],fWW=0,fWT=0,lFT=0;
+class Pt{constructor(x,y,vx,vy,c,l,s){this.x=x;this.y=y;this.vx=vx;this.vy=vy;this.c=c;this.l=l;this.ml=l;this.s=s||3;this.g=.06;this.t=[]}
+u(){this.t.push({x:this.x,y:this.y});if(this.t.length>5)this.t.shift();this.vx*=.99;this.vy*=.99;this.vy+=this.g;this.x+=this.vx;this.y+=this.vy;this.l--}
+d(C){let a=this.l/this.ml;for(let i=0;i<this.t.length;i++){let p=this.t[i];C.globalAlpha=(i/this.t.length)*a*.5;C.fillStyle=this.c;C.fillRect(p.x-this.s/2,p.y-this.s/2,this.s,this.s)}C.globalAlpha=a;C.fillStyle=this.c;C.fillRect(this.x-this.s/2,this.y-this.s/2,this.s,this.s);C.globalAlpha=1}}
+class Cf{constructor(x,y,vx,vy,c,s){this.x=x;this.y=y;this.vx=vx;this.vy=vy;this.c=c;this.s=s;this.r=Math.random()*Math.PI*2;this.rs=(Math.random()-.5)*.15;this.g=.04;this.w=Math.random()*Math.PI*2;this.l=100+Math.random()*100;this.ml=this.l}
+u(){this.w+=.05;this.vx+=Math.sin(this.w)*.15;this.vy+=this.g;this.x+=this.vx;this.y+=this.vy;this.r+=this.rs;this.l--}
+d(C){let a=Math.min(1,this.l/40);C.save();C.globalAlpha=a;C.translate(this.x,this.y);C.rotate(this.r);C.fillStyle=this.c;C.fillRect(-this.s,-this.s/2,this.s*2,this.s);C.restore()}}
+function spFW(){let cx=W*.3+Math.random()*W*.4,cy=hh*.15+Math.random()*hh*.5,cs=["#ff4444","#ff8800","#ffdd00","#44ff44","#44aaff","#ff44ff","#ff88aa","#00ffcc"],c=cs[Math.floor(Math.random()*cs.length)],n=30+Math.floor(Math.random()*40);for(let i=0;i<n;i++){let a=Math.random()*Math.PI*2,s=2+Math.random()*5,vx=Math.cos(a)*s,vy=Math.sin(a)*s;FW.push(new Pt(cx,cy,vx,vy,c,40+Math.random()*50,3))}}
+function spCFB(){let cs=["#ff4444","#ff8800","#ffdd00","#44ff44","#44aaff","#ff44ff","#ff88aa","#ff88cc","#44ddff"];for(let i=0;i<25;i++){let x=W*.2+Math.random()*W*.6,y=hh*.05,vx=(Math.random()-.5)*8,vy=Math.random()*6+2;CF.push(new Cf(x,y,vx,vy,cs[Math.floor(Math.random()*cs.length)],4+Math.random()*5))}}
+
+function drawGift(cx,cy,sc){
+  X.save();X.translate(cx,cy);X.scale(sc,sc);X.imageSmoothingEnabled=false;
+  X.fillStyle="rgba(0,0,0,.3)";X.fillRect(-30,-20,60,60);
+  X.fillStyle="#cc2222";X.fillRect(-28,-14,56,52);
+  X.fillStyle="#aa1111";X.fillRect(-28,-14,56,6);
+  X.fillStyle="#ff3333";X.fillRect(-28,28,56,10);
+  X.fillStyle="#ffd700";X.fillRect(-6,-14,12,52);
+  X.fillStyle="#ffed4a";X.fillRect(-3,-14,6,52);
+  X.fillStyle="#ffd700";X.fillRect(-28,6,56,12);
+  X.fillStyle="#ffed4a";X.fillRect(-28,9,56,6);
+  X.fillStyle="#dd3333";X.fillRect(-32,-26,64,16);
+  X.fillStyle="#ff4444";X.fillRect(-32,-26,64,4);
+  X.fillStyle="#bb1111";X.fillRect(-32,-14,64,4);
+  X.fillStyle="#ffd700";X.fillRect(-6,-36,12,20);X.fillRect(-14,-28,28,8);
+  X.fillStyle="#ffaa00";X.fillRect(-18,-40,12,18);X.fillRect(6,-40,12,18);
+  X.fillStyle="#ffd700";X.fillRect(-16,-38,8,14);X.fillRect(8,-38,8,14);
+  X.restore();
+}
+
+function drawCake(cx,cy){
+  X.save();X.translate(cx,cy);X.imageSmoothingEnabled=false;
+  X.fillStyle="rgba(0,0,0,.25)";X.fillRect(-68,58,140,8);
+  X.fillStyle="#f5f5f5";X.fillRect(-70,58,144,7);
+  X.fillStyle="#ddd";X.fillRect(-68,58,140,3);
+  X.fillStyle="#8B4513";X.fillRect(-56,14,116,44);
+  X.fillStyle="#A0522D";X.fillRect(-56,14,116,6);
+  X.fillStyle="#6B3410";X.fillRect(-56,50,116,8);
+  X.fillStyle="#FFF8DC";X.fillRect(-52,22,108,8);
+  X.fillStyle="#FFF0C0";X.fillRect(-52,24,108,4);
+  X.fillStyle="#F5DEB3";X.fillRect(-48,-18,100,34);
+  X.fillStyle="#FAEBD7";X.fillRect(-48,-18,100,5);
+  X.fillStyle="#FFB6C1";
+  for(let x=-48;x<52;x+=7)X.fillRect(x,-24,7,10);
+  for(let x=-45;x<48;x+=7){X.fillStyle="#FFC0CB";X.fillRect(x,-24,7,7)}
+  X.fillStyle="#FF69B4";X.fillRect(-40,-30,84,7);
+  X.fillStyle="#FF85C8";X.fillRect(-40,-30,84,3);
+  let cs=["#FF4444","#FFD700","#44FF44","#4488FF","#FF44FF","#FF8800"];
+  for(let i=0;i<32;i++){X.fillStyle=cs[i%6];let sx=-34+(i*7)%66+(i%3)*2,sy=-28+(i%5)*4;X.fillRect(sx,sy,3,2);X.fillRect(sx+1,sy-1,1,3)}
+  X.fillStyle="#CC0000";X.fillRect(-4,-40,9,7);X.fillRect(-2,-43,5,5);
+  X.fillStyle="#FF2222";X.fillRect(-3,-40,4,3);X.fillStyle="#00AA00";X.fillRect(0,-48,1,6);
+  for(let s=-46;s<48;s+=22){X.fillStyle="#FFB6C1";X.fillRect(s,-2,12,9);X.fillStyle="#FFC0CB";X.fillRect(s+1,-2,10,7);X.fillStyle="#FF69B4";X.fillRect(s+3,0,6,5)}
+  let cls=["#FF4444","#FF8800","#FFD700","#44FF44","#44AAFF"];
+  for(let i=0;i<5;i++){let cx_c=-34+i*17;
+    X.fillStyle="#FFF8F0";X.fillRect(cx_c-4,-52,8,26);
+    X.fillStyle=cls[i];X.fillRect(cx_c-4,-52,8,5);X.fillRect(cx_c-4,-44,8,4);X.fillRect(cx_c-4,-38,8,3);
+    X.fillStyle="#FFE4C4";X.fillRect(cx_c-4,-52,8,2);
+    X.fillStyle="#333";X.fillRect(cx_c-0.5,-58,2,6);
+  }
+  X.restore();
+}
+
+let fO=[0,0,0,0,0];
+function drawFlames(cx,cy){
+  X.save();X.translate(cx,cy);
+  for(let i=0;i<5;i++){if(cB[i])continue;let fx=-34+i*17,fy=-62+fO[i];
+    X.fillStyle="rgba(255,120,0,.4)";X.fillRect(fx-4,fy-10,8,16);
+    X.fillStyle="#FF6600";X.fillRect(fx-3,fy-9,6,15);
+    X.fillStyle="#FFAA00";X.fillRect(fx-2,fy-7,4,12);
+    X.fillStyle="#FFDD00";X.fillRect(fx-1,fy-5,2,8);
+    X.fillStyle="#FFFFCC";X.fillRect(fx,fy-3,1,4);
+    fO[i]+=(Math.random()-.5)*.6;fO[i]*=.92;
+  }X.restore();
+}
+
+function drawStars(){
+  X.fillStyle="#fff";let t=Date.now()*.001;
+  for(let i=0;i<60;i++){let sx=(i*137.5+50)%W,sy=(i*97.3+30)%(hh*.6),b=.3+.7*Math.abs(Math.sin(t+i));X.globalAlpha=b;X.fillRect(sx,sy,2,2)}X.globalAlpha=1;
+}
+
+function drawBlessing(){
+  if(P!=="blown")return;let p=Math.min(1,pT/120),a=Math.min(1,p*1.5),y=hh*.74+Math.sin(p*Math.PI)*16;
+  X.save();X.globalAlpha=a;X.fillStyle="#ffd700";X.textAlign="center";X.shadowColor="#ff8800";X.shadowBlur=8;
+  X.font='bold 18px "Microsoft YaHei","PingFang SC",sans-serif';X.fillText("郑可乐，生日快乐！",W/2,y-8);
+  X.font='bold 14px "Microsoft YaHei","PingFang SC",sans-serif';X.fillText("新的一岁，继续做",W/2,y+24);X.fillText("那个闪闪发光的人",W/2,y+46);
+  let st=Date.now()*.003;for(let i=0;i<8;i++){let sx=W/2-80+Math.cos(st+i*.8)*90,sy=y+10+Math.sin(st+i*.8)*20,sb=.4+.6*Math.abs(Math.sin(st*2+i));X.globalAlpha=a*sb;X.fillStyle="#fff";X.fillRect(sx-1,sy-1,3,3)}X.restore();
+}
+
+let cB=[0,0,0,0,0],blowC=0,cAT=0,bD=0;
+function rst(){FW=[];CF=[];fWW=0;fWT=0;lFT=0;cB=[0,0,0,0,0];blowC=0;cAT=0;bD=0}
+function clk(){
+  IA();if(P==="gift"){P="fireworks";rst();spFW();spCFB();lFT=performance.now();H.style.display="none";PN(523,.15);PN(659,.15)}
+  else if(P==="cake"){for(let i=0;i<5;i++)cB[i]=1;blowC=5;PN(523,.2);PN(659,.2);PN(784,.3);bD=30}}
+C.addEventListener("click",clk);C.addEventListener("touchstart",e=>{e.preventDefault();clk()});
+
+function upGB(){gBT+=.04;gB=Math.sin(gBT*1.5)*5}
+
+function loop(ts){
+  X.clearRect(0,0,W,hh);
+  let g=X.createLinearGradient(0,0,0,hh);
+  g.addColorStop(0,"#0d0d2b");g.addColorStop(.5,"#1a1040");g.addColorStop(1,"#0d0d2b");
+  X.fillStyle=g;X.fillRect(0,0,W,hh);
+  drawStars();
+  let cx=W/2,cy=hh*.42;
+  switch(P){
+    case"gift":upGB();drawGift(cx,cy+gB,2.5);break;
+    case"fireworks":fWT=ts-lFT;
+      if(fWW<4&&fWT>250+fWW*60){spFW();spCFB();if(fWW<3)spCFB();lFT=ts;fWW++;if(fWW<=4)PN(523+fWW*80,.1,"square",.03)}
+      for(let i=FW.length-1;i>=0;i--){FW[i].u();if(FW[i].l<=0)FW.splice(i,1);else FW[i].d(X)}
+      for(let i=CF.length-1;i>=0;i--){CF[i].u();if(CF[i].l<=0)CF.splice(i,1);else CF[i].d(X)}
+      if(fWW>=4&&FW.length<10&&CF.length<20){P="cake";cAT=0;H.style.display="block";H.textContent="🕯️ 点击屏幕吹蜡烛 🕯️"}break;
+    case"cake":cAT++;let ckY=cy+40;
+      X.save();X.globalAlpha=Math.min(1,cAT/40);drawCake(cx,ckY);drawFlames(cx,ckY);X.restore();
+      if(blowC>=5&&bD>0){bD--;if(bD<=0){P="blown";pT=0;H.style.display="none"}}break;
+    case"blown":pT++;let bY=cy+40;
+      X.globalAlpha=1;drawCake(cx,bY);
+      for(let i=0;i<5;i++){let sx=cx-34+i*17,sy=bY-62-pT*.5+i*3,sa=Math.max(0,.4-pT*.005);if(sa>0&&pT<80){X.globalAlpha=sa;X.fillStyle="#ccc";let ps=3+pT*.1;X.fillRect(sx-ps,sy-ps,ps*2,ps*2)}}X.globalAlpha=1;
+      drawBlessing();break;
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script></body></html>
